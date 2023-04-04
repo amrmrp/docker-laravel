@@ -77,4 +77,10 @@ DB_PASSWORD=123456
 
 ```
 
-
+#### Installed packages 
+-composer
+-php 8.1
+-supervisor
+-mysql
+-phpmyadmin
+-nano and vim
