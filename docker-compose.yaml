@@ -1,31 +1,40 @@
-version: "3.0"
+version: "3.1"
 
 services:
-
+  
   nginx:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: php-base
     container_name: web
     ports:
       - "81:8000"
-    tty: true  
     volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - /home/amirreza/docker/www/html/app:/var/www/html/
+      - path:/var/www/html/
+    depends_on:
+     - db
 
+  db:
+    image: mysql
+    container_name: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
     environment:
-      HTTP_PROXY: 127.0.0.1:10809
-      COMPOSE_PROJECT_NAME: mvc
-      COMPOSE_PROJECT_HOST: laravel
-    networks:
-     - test
-
-networks: 
-   test:
-    driver: bridge
-  
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: 123456
+    ports:
+      - "3308:3306"
+      - 
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyAdmin
+    restart: always
+    ports:
+      - "82:80"
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_ARBITRARY=db
 
 volumes:
-  html2: {}
-  
+  laravel-mysql:
+    driver: local
