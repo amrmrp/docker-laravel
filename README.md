@@ -18,6 +18,11 @@ Or you can set the nameserver by creating file ```/etc/docker/daemon.json```
   }
 ```
 
+### dockerhub 
+``
+ amrmrp/php-laravel
+``
+
 #### step1
 Put these two files into your Laravel project:
 ``
