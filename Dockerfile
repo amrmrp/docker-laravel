@@ -5,7 +5,7 @@ COPY . /var/www/html/
 # update container
 RUN apt-get -y update && apt-get -y upgrade
 RUN apt-get -y install vim nano
-RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
+RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql && apt-get install libzip-dev && docker-php-ext-configure zip
 # install composer
 RUN curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
 RUN HASH=`curl -sS https://composer.github.io/installer.sig`
