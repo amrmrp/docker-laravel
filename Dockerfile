@@ -5,16 +5,14 @@ COPY . /var/www/html/
 # update container
 RUN apt-get -y update && apt-get -y upgrade
 RUN apt-get -y install vim nano
-RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql && apt-get install libzip-dev && docker-php-ext-configure zip
+RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql && apt-get install libzip-dev -y && docker-php-ext-configure zip && docker-php-ext-install zip
+
 # install composer
 RUN curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
 RUN HASH=`curl -sS https://composer.github.io/installer.sig`
 RUN echo $HASH
 RUN php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 RUN php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
-
-# composer install
-RUN if [ -f composer.json ] ; then composer install ; else echo “composer.json File does not exist”; fi
 
 #supervisor run serve
 RUN apt-get install supervisor -y
